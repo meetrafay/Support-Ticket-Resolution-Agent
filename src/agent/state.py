@@ -10,7 +10,7 @@ class State(TypedDict):
     context: str                            # Retrieved context
     draft: str                              # Draft response
     approved: bool                          # Draft approval status
-    feedback: str                           # Reviewer feedback
+    feedbacks: list                           # Reviewer feedback
     drafts: list                            # List of drafts
     feedbacks: list                         # List of feedback
     output: str                             # Final response or escalation

@@ -10,18 +10,35 @@ def classify_ticket(state: State) -> State:
     ticket = state["ticket"]
     message = classify_prompt.format(subject=ticket["subject"], description=ticket["description"])
     
-    response = call_llm(
-        message=message,
-        mock_response="Billing" if MOCK_RESPONSE else None,
-        max_tokens=50,
-        temperature=0
-    )
+    valid_categories = ["Billing", "Technical", "Security", "General"]
+    mock_response = "Billing" if MOCK_RESPONSE else None
     
-    # Remove trailing period
-    clean_response = response.rstrip(".")
+    try:
+        response = call_llm(
+            message=message,
+            mock_response=mock_response,
+            max_tokens=50,
+            temperature=0
+        )
+        # Validate output
+        if response not in valid_categories:
+            error_msg = f"Invalid category: {response}. Using fallback: General"
+            messages = state["messages"] + [HumanMessage(content=error_msg)]
+            return {
+                "category": "General",
+                "messages": messages
+            }
+    except ValueError as e:
+        # Handle API errors
+        error_msg = f"Classification error: {str(e)}. Using fallback: General"
+        messages = state["messages"] + [HumanMessage(content=error_msg)]
+        return {
+            "category": "General",
+            "messages": messages
+        }
     
-    messages = state["messages"] + [HumanMessage(content=f"Ticket classified as: {clean_response}")]
+    messages = state["messages"] + [HumanMessage(content=f"Ticket classified as: {response}")]
     return {
-        "category": clean_response,
+        "category": response,
         "messages": messages
-    }   
+    } 

@@ -27,19 +27,31 @@ def review_draft(state: State) -> State:
     )
     
     mock_response = "Approved" if MOCK_RESPONSE else None
-    response = call_llm(
-        message=message,
-        mock_response=mock_response,
-        max_tokens=100,  # Short output (Approved/Escalate + feedback)
-        temperature=0
-    )
-    
-    # Parse response strictly
-    response = response.strip()
-    review_result = "Approved" if response.startswith("Approved") else "Escalate"
-    feedback = response.split("\nFeedback: ")[1].strip() if "\nFeedback: " in response else None
-    
-    messages = state["messages"] + [HumanMessage(content=f"Draft review result: {review_result}")]
+    try:
+        response = call_llm(
+            message=message,
+            mock_response=mock_response,
+            max_tokens=100,
+            temperature=0
+        )
+        # Validate output
+        response = response.strip()
+        valid_responses = ["Approved", "Escalate"]
+        if not response.startswith(tuple(valid_responses)):
+            error_msg = f"Invalid review response: {response}. Falling back to Escalate."
+            feedback = "Invalid review output. Please ensure draft is relevant and complete."
+            messages = state["messages"] + [HumanMessage(content=error_msg)]
+            review_result = "Escalate"
+        else:
+            review_result = "Approved" if response.startswith("Approved") else "Escalate"
+            feedback = response.split("\nFeedback: ")[1].strip() if "\nFeedback: " in response else None
+            messages = state["messages"] + [HumanMessage(content=f"Draft review result: {review_result}")]
+    except ValueError as e:
+        # Handle API errors
+        error_msg = f"Review error: {str(e)}. Falling back to Escalate."
+        feedback = "API error occurred. Please ensure draft is relevant and complete."
+        messages = state["messages"] + [HumanMessage(content=error_msg)]
+        review_result = "Escalate"
     
     if review_result == "Approved":
         return {

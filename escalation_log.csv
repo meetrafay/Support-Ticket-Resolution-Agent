@@ -100,3 +100,6 @@ Draft Response (Revised):
 Hello [Customer Name],
 
 Thank you for bringing the double charge issue to our attention. I'm here to help you resolve this matter as soon as possible."
+2025-07-21 23:17:26,I was charged twice for the same service,"Hi, I noticed two charges on my credit card for this month's billing. Can you look into this?",General,"Error: LLM API call failed: 1 validation error for HuggingFaceEndpoint
+  Value error, Could not authenticate with huggingface_hub. Please check your API token. [type=value_error, input_value={'repo_id': 'mistralai/Mi...nt': None, 'task': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/value_error. Please try again or contact support.",Draft rejected after 3 attempts. Feedback: Invalid review output. Please ensure draft is relevant and complete.

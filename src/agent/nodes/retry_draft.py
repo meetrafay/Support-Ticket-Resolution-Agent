@@ -10,13 +10,13 @@ def retry_draft(state: State) -> State:
     ticket = state["ticket"]
     category = state["category"]
     context = state["context"]
-    feedback = state["feedback"]
+    feedbacks = state["feedbacks"]
     
     message = draft_prompt.format(
         subject=ticket["subject"],
         description=ticket["description"],
         category=category,
-        context=f"{context}\n\nFeedback from previous draft: {feedback or 'No specific feedback provided. Ensure the response is concise and actionable.'}"
+        context=f"{context}\n\nFeedback from previous draft: {feedbacks or 'No specific feedback provided. Ensure the response is concise and actionable.'}"
     )
     
     mock_response = (
