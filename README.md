@@ -1,194 +1,279 @@
-Support Ticket Resolution Agent
-This project implements an automated support ticket resolution agent using LangGraph, designed to process customer support tickets, classify them, retrieve relevant context, generate draft responses, review drafts, and retry or escalate as needed. The agent is modular, robust, and handles edge cases gracefully, making it suitable for handling various ticket types (Billing, Technical, Security, General).
-Project Overview
-The agent processes tickets through a workflow:
+# 🛠️ Support Ticket Resolution Agent
 
-Classify: Identifies the ticket category (e.g., Billing, Technical).
-Retrieve: Fetches context from a knowledge base (src/agent/knowledge/).
-Draft: Generates a professional response with a greeting, actionable steps, and closing.
-Review: Evaluates the draft for relevance, completeness, and professionalism.
-Retry Draft: Regenerates drafts based on feedback (up to 3 attempts).
-Output: Returns the approved draft or escalates to a human agent.
+This project implements an automated **support ticket resolution agent** using [LangGraph](https://docs.langgraph.dev), designed to:
 
-The project uses LangGraph for workflow orchestration, Hugging Face’s mistralai/Mistral-7B-Instruct-v0.2 for LLM tasks, and a clean directory structure for modularity.
-Setup Instructions
-Prerequisites
+- Process customer support tickets  
+- Classify them  
+- Retrieve relevant context  
+- Generate draft responses  
+- Review drafts  
+- Retry or escalate as needed
 
-Python: 3.8 or higher.
-Virtual Environment: Recommended for dependency isolation.
-Hugging Face API Token: Required for LLM calls.
-LangGraph: For workflow visualization and execution.
+It is modular, robust, and gracefully handles edge cases — suitable for various ticket types like **Billing**, **Technical**, **Security**, and **General**.
 
-Installation
+---
 
-Clone the Repository:
-git clone <repository-url>
+## 📌 Project Overview
+
+The agent processes tickets through the following **workflow**:
+
+1. **Classify**: Identifies the ticket category (Billing, Technical, etc.)  
+2. **Retrieve**: Fetches relevant context from knowledge base (`src/agent/knowledge/`)  
+3. **Draft**: Generates a professional response  
+4. **Review**: Evaluates response quality  
+5. **Retry Draft**: Attempts improvement (max 3 tries)  
+6. **Output**: Approves or escalates
+
+**Technologies:**
+- **LangGraph**: Orchestration and state flow  
+- **Hugging Face**: `mistralai/Mistral-7B-Instruct-v0.2` for LLM  
+- **Clean modular architecture**
+
+---
+
+## ⚙️ Setup Instructions
+
+### ✅ Prerequisites
+
+- Python 3.10+
+- Virtual environment (recommended)
+- Hugging Face API token
+- LangGraph CLI
+
+---
+
+### ✅ Installation
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/meetrafay/Support-Ticket-Resolution-Agent.git
 cd support-agent
+````
 
+#### 2. Set Up Virtual Environment
 
-Set Up Virtual Environment:
+```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
+#### 3. Install Dependencies
 
-Install Dependencies:
+```bash
 pip install -r requirements.txt
+```
 
-The requirements.txt includes:
+**Included in `requirements.txt`:**
 
-langgraph
-langchain-community
-huggingface_hub
-Other dependencies for LLM and workflow management.
+* `langgraph`
+* `langchain-community`
+* `huggingface_hub`
+* Other dependencies for LLM and workflow orchestration
 
+---
 
-Configure Environment:
+### ✅ Configure Environment
 
-Create a .env file in the project root:HUGGINGFACE_API_TOKEN=<your-huggingface-token>
+1. Create a `.env` file:
+
+```
+HUGGINGFACE_API_TOKEN=<your-huggingface-token>
 LANGCHAIN_TRACING_V2=false
+```
 
+2. Get your Hugging Face token from:
+   [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
 
-Obtain a Hugging Face API token from https://huggingface.co/settings/tokens.
-Set LANGCHAIN_TRACING_V2=false to disable LangSmith tracing (optional).
+---
 
+### ✅ Set Up Knowledge Base
 
-Set Up Knowledge Base:
+Ensure the following files exist inside `src/agent/knowledge/`:
 
-Ensure src/agent/knowledge/ contains files like billing.txt, technical.txt, security.txt, and general.txt with relevant support instructions.
+```
+billing.txt
+technical.txt
+security.txt
+general.txt
+```
 
+Each should contain relevant resolution guidance.
 
-Start LangGraph Server:
+---
+
+### ✅ Start LangGraph UI
+
+```bash
 langgraph dev
+```
 
+Then open:
+[http://localhost:8123](http://localhost:8123)
 
-Access the UI at http://localhost:8123 to visualize and test the workflow.
+---
 
+## 🚀 Running and Testing the Agent
 
+### ✅ Run the Agent
 
-Running and Testing the Agent
-Running the Agent
-
-Execute the Main Script:
+```bash
 python src/agent/graph.py
+```
 
+Sample Billing Ticket:
 
-This runs the agent with sample tickets (Billing and Technical).
-Outputs include classification, draft responses, and review results.
-Example output for a Billing ticket:Ticket Input (Billing): {'subject': 'I was charged twice for the same service', 'description': 'Hi, I noticed two charges...'}
-Result: {
-    'category': 'Billing',
-    'draft': 'Hello Customer,\n\nThank you for contacting us... Best regards,\nSupport Team',
-    'approved': True,
-    ...
+```json
+{
+  "subject": "I was charged twice for the same service",
+  "description": "Hi, I noticed two charges..."
 }
+```
 
+Sample Output:
 
+```json
+{
+  "category": "Billing",
+  "draft": "Hello Customer, Thank you for contacting us...",
+  "approved": true,
+  ...
+}
+```
 
+---
 
-Toggle Mock Responses:
+### ✅ Toggle Mock Responses
 
-Edit src/agent/nodes/classify.py, draft.py, review.py, retry_draft.py to set MOCK_RESPONSE = False for real LLM calls.
-Ensure HUGGINGFACE_API_TOKEN is valid in .env.
+To run with real LLM instead of mock:
 
+1. Set `MOCK_RESPONSE = False` in:
 
-View Logs:
+   * `classify.py`
+   * `draft.py`
+   * `review.py`
+   * `retry_draft.py`
+2. Ensure `.env` has a valid Hugging Face token.
 
-Check escalation_log.csv for escalated tickets:timestamp,subject,description,category,draft,reason
-"2025-07-21 23:05:45","Can't log in...","I keep getting an error...","Billing","Hello Customer,...","Draft rejected after 3 attempts. Feedback: Add specific troubleshooting steps..."
+---
 
+### ✅ View Escalation Logs
 
+Check `escalation_log.csv`:
 
+```
+timestamp,subject,description,category,draft,reason
+"2025-07-21 23:05:45","Can't log in...","I keep getting an error...","Billing","Hello Customer,...","Draft rejected after 3 attempts..."
+```
 
+---
 
-Testing the Agent
+### ✅ Use LangGraph UI
 
-Test with Sample Tickets:
+Open: [http://localhost:8123](http://localhost:8123)
 
-Run python src/agent/graph.py to test predefined Billing and Technical tickets.
-Verify Billing ticket approves on first attempt and Technical ticket escalates if misclassified (mock mode).
+Try a custom ticket:
 
+* **Subject**: I was charged twice
+* **Description**: Two charges on my card
 
-Test Edge Cases:
+Observe:
 
-Missing Knowledge File: Rename src/agent/knowledge/billing.txt, run graph.py, confirm fallback context: No knowledge base found for category: Billing.
-Invalid LLM Output: Set mock response in classify.py to InvalidCategory, confirm fallback to General.
-API Error: Set invalid HUGGINGFACE_API_TOKEN, run with MOCK_RESPONSE = False, confirm fallback to General (classify) or Escalate (review).
+* Category assignment
+* Context retrieved
+* Draft response
+* Final decision (approved or escalated)
 
+---
 
-Use LangGraph UI:
+## 🧠 Design and Architectural Decisions
 
-Open http://localhost:8123.
-Input a ticket (e.g., subject: "I was charged twice", description: "Two charges on my card") and trace the workflow.
-Verify state (category, context, draft, approved) at each node.
+### ✅ Workflow Design
 
+* **LangGraph**: Stateful, graph-based orchestration
+* **Nodes**: Single-purpose modules:
 
+  * `classify`
+  * `retrieve`
+  * `draft`
+  * `review`
+  * `retry_draft`
+* **State**: Defined in `state.py`, shared across nodes
 
-Design and Architectural Decisions
-Workflow Design
+### ✅ Modular Architecture
 
-LangGraph Workflow: Adopted LangGraph for its stateful, graph-based orchestration, enabling clear node transitions and conditional routing (e.g., retry_draft vs. END).
-Nodes: Split into single-purpose nodes (classify, retrieve, draft, review, retry_draft) for modularity and reusability.
-State Management: Defined State (src/agent/state.py) with fields (ticket, category, context, draft, approved, attempt, drafts, feedbacks, output) for traceability across nodes.
+* Nodes: `src/agent/nodes/*.py`
+* Shared logic: `utils.py`
+* Knowledge base: `src/agent/knowledge/*.txt`
 
-Key Decisions
+---
 
-Modular Architecture:
+### ✅ Prompt Engineering
 
-Nodes are independent (src/agent/nodes/*.py), with shared logic in utils.py (e.g., call_llm) to keep code DRY.
-Knowledge base (src/agent/knowledge/*.txt) allows easy updates for new ticket types.
+* `prompts.py`: Tailored per node
+* `classify_prompt`: Ensures valid categories only
+* `review_prompt`: Approves minor issues to reduce false escalations
 
+---
 
-Prompt Engineering:
+### ✅ Error Handling
 
-prompts.py: Tailored prompts for each node (e.g., classify_prompt for single-word output, draft_prompt for concise responses).
-review_prompt: Relaxed to approve suitable drafts with minor issues, reducing escalations.
+* **API Errors**: Graceful fallback in `utils.py`
+* **Classify**: Defaults to `General` if invalid output
+* **Review**: Escalates if response isn’t “Approved ✅”
+* **Retrieve**: Warns if knowledge file is missing
 
+---
 
-Error Handling:
+### ✅ Token Optimization
 
-utils.py: Try-catch for Hugging Face API errors (e.g., rate limits, invalid token) with fallback responses.
-classify.py: Validates LLM output against valid categories, falls back to General.
-review.py: Validates Approved/Escalate, falls back to Escalate for invalid outputs.
-retrieval.py: Handles missing knowledge files with a fallback context.
+* `classify`: max\_tokens=50
+* `review`: max\_tokens=100
+* `draft` & `retry`: max\_tokens=400
 
+---
 
-Token Optimization:
+### ✅ Traceability
 
-max_tokens: Set to 50 (classify), 100 (review), 400 (draft, retry_draft) based on output needs to prevent truncation while ensuring efficiency.
+* `state["messages"]`: Logs all steps
+* `escalation_log.csv`: For escalations
+* **LangGraph UI**: Live visual debugging
 
+---
 
-Traceability:
+## ✅ Testing
 
-messages in State logs node actions (e.g., Ticket classified as: Billing).
-escalation_log.csv: Records escalations with timestamp, ticket details, and feedback.
-LangGraph UI (http://localhost:8123) visualizes state and flow.
+### ✔️ Sample Tickets
 
+```bash
+python src/agent/graph.py
+```
 
-Testing:
+* Billing ticket: should pass first try
+* Technical ticket: triggers retry/escalation
 
-Mock responses (MOCK_RESPONSE = True) for consistent testing without API costs.
-Real LLM support (mistralai/Mistral-7B-Instruct-v0.2) for production.
-Edge case tests for missing files, invalid outputs, and API errors.
+### ✔️ Edge Cases
 
+* 🔄 **Missing file**: Rename `billing.txt` → fallback message shown
+* ❌ **Invalid category**: Set mock classify → fallback to "General"
+* 🔒 **Bad API token**: Observe fallback + logs
 
+---
 
-Trade-Offs
+## 📈 Future Improvements
 
-Mock vs. Real LLM: Mock responses prioritize testing speed but may miss real-world LLM variability (mitigated by testing with MOCK_RESPONSE = False).
-Retry Limit: Set to 3 attempts to balance automation and escalation, preventing infinite loops.
-General Category Fallback: Used for classification errors to ensure workflow continuity, though it may reduce specificity for edge cases.
+* Add detailed docstrings + inline comments
+* Enable dynamic knowledge base loading
+* Add retry logic for API rate limits (exponential backoff)
 
-Troubleshooting
+---
 
-API Errors: Verify HUGGINGFACE_API_TOKEN in .env and check quota at https://huggingface.co/settings/tokens.
-LangGraph UI Issues: Ensure langgraph.json points to src.agent.graph:graph and LANGCHAIN_TRACING_V2=false.
-Draft Truncation: Confirm max_tokens=400 in draft.py and retry_draft.py.
-Escalations: Check review_prompt for overly strict criteria if drafts are rejected unexpectedly.
+## 🧩 Troubleshooting
 
-Future Improvements
+| Problem                | Solution                                                  |
+| ---------------------- | --------------------------------------------------------- |
+| API Errors             | Check `HUGGINGFACE_API_TOKEN` in `.env`                   |
+| UI Not Loading         | Ensure `langgraph.json` points to `src.agent.graph:graph` |
+| Drafts Cut Short       | Increase `max_tokens=400` in `draft.py`                   |
+| Unexpected Escalations | Tweak `review_prompt` for leniency                        |
 
-Add docstrings and inline comments for better code quality.
-Support dynamic knowledge base updates without file edits.
-Implement retry logic for API rate limits with exponential backoff.
-
-For issues or contributions, contact the repository maintainer.
+---
