@@ -6,7 +6,15 @@ from agent.utils import call_llm
 MOCK_RESPONSE = False  # Toggle to False for API calls
 
 def classify_ticket(state: State) -> State:
-    """Classify the ticket into a category."""
+    """Classify the ticket into a category.
+
+    Args:
+        state (State): Current state with ticket details.
+
+    Returns:
+        State: Updated state with category and messages.
+    """
+    
     ticket = state["ticket"]
     message = classify_prompt.format(subject=ticket["subject"], description=ticket["description"])
     
@@ -29,7 +37,6 @@ def classify_ticket(state: State) -> State:
                 "messages": messages
             }
     except ValueError as e:
-        # Handle API errors
         error_msg = f"Classification error: {str(e)}. Using fallback: General"
         messages = state["messages"] + [HumanMessage(content=error_msg)]
         return {

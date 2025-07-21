@@ -6,7 +6,15 @@ from agent.utils import call_llm
 MOCK_RESPONSE = False  # Toggle to False for API calls
 
 def generate_draft(state: State) -> State:
-    """Generate a draft response based on ticket and context."""
+    """Generate a draft response based on ticket and context.
+    
+    Args:
+        state (State): Current state with ticket, category, and context.
+        
+    Returns:
+        State: Updated state with draft response and messages.
+    """
+    
     ticket = state["ticket"]
     category = state["category"]
     context = state["context"]

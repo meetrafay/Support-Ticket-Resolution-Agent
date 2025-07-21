@@ -6,7 +6,16 @@ from agent.utils import call_llm
 MOCK_RESPONSE = False  # Toggle to False for API calls
 
 def retry_draft(state: State) -> State:
-    """Regenerate the draft using feedback."""
+    """Regenerate the draft using feedback.
+
+    Args:
+        state (State): Current state with ticket, category, context, and feedbacks.
+        
+    Returns:
+        State: Updated state with new draft response and messages.
+    
+    """
+    
     ticket = state["ticket"]
     category = state["category"]
     context = state["context"]

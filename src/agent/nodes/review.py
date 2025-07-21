@@ -9,7 +9,15 @@ from agent.utils import call_llm
 MOCK_RESPONSE = False  # Toggle to False for API calls
 
 def review_draft(state: State) -> State:
-    """Review the draft response and approve or escalate."""
+    """Review the draft response for relevance, completeness, and professionalism.
+
+    Args:
+        state (State): Current state with ticket, category, context, and draft.
+
+    Returns:
+        State: Updated state with approval status, output, and feedback if rejected.
+    """
+    
     ticket = state["ticket"]
     category = state["category"]
     context = state["context"]
@@ -47,7 +55,6 @@ def review_draft(state: State) -> State:
             feedback = response.split("\nFeedback: ")[1].strip() if "\nFeedback: " in response else None
             messages = state["messages"] + [HumanMessage(content=f"Draft review result: {review_result}")]
     except ValueError as e:
-        # Handle API errors
         error_msg = f"Review error: {str(e)}. Falling back to Escalate."
         feedback = "API error occurred. Please ensure draft is relevant and complete."
         messages = state["messages"] + [HumanMessage(content=error_msg)]
