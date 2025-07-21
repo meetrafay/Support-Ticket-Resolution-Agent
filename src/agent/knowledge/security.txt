@@ -1,0 +1,36 @@
+Security Support Documentation:
+
+1. Account Compromise:
+   - Description: Customer suspects their account has been hacked or accessed without permission.
+   - Common Causes: Phishing attacks, weak passwords, or compromised devices.
+   - Resolution Steps:
+     - Instruct the customer to reset their password immediately via https://login.company.com/reset.
+     - Enable two-factor authentication (2FA) in the account security settings.
+     - Advise scanning their device for malware using trusted antivirus software.
+     - Review recent account activity in the security dashboard for unauthorized logins.
+     - If suspicious activity is confirmed, lock the account temporarily and notify the security team.
+   - Escalation: Escalate immediately to the security team with details of suspicious activity.
+
+2. Unauthorized Access Alerts:
+   - Description: Customer receives alerts about login attempts from unknown devices or locations.
+   - Common Causes: Legitimate login attempts (e.g., new device) or potential attacks.
+   - Resolution Steps:
+     - Ask the customer to confirm if they recognize the device or location in the alert.
+     - If unrecognized, guide them to reset their password and enable 2FA.
+     - Suggest reviewing security settings and revoking access to unknown devices.
+     - Provide the security FAQ: https://support.company.com/security.
+   - Escalation: Escalate if the customer reports multiple unauthorized attempts or confirmed breaches.
+
+3. Data Privacy Concerns:
+   - Description: Customer questions how their data is handled or reports a data leak.
+   - Common Causes: Misunderstanding of privacy policies or actual data exposure.
+   - Resolution Steps:
+     - Direct the customer to the privacy policy at https://company.com/privacy.
+     - If a data leak is suspected, ask for specific details (e.g., exposed data, source).
+     - Assure the customer that their data is protected per GDPR/CCPA standards.
+   - Escalation: Escalate to the security and legal teams for any suspected data breaches.
+
+4. General Guidelines:
+   - Prioritize urgency and sensitivity in security-related issues.
+   - Avoid sharing sensitive details in responses unless verified.
+   - Escalate all confirmed or suspected security breaches to the security team immediately.

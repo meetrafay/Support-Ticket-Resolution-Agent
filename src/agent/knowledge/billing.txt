@@ -1,0 +1,47 @@
+Billing Support Documentation:
+
+1. Double Charges:
+   - Description: Occurs when a customer is charged multiple times for the same service or transaction.
+   - Common Causes: Duplicate subscriptions, processing errors, or multiple authorization attempts due to payment gateway issues.
+   - Resolution Steps:
+     - Instruct the customer to log in to the billing portal (accessible at https://billing.company.com) and navigate to "Transaction History."
+     - Check for duplicate entries with identical amounts, dates, or service descriptions.
+     - If duplicates are confirmed, initiate a refund by submitting a ticket to the billing team with transaction IDs.
+     - Refunds typically process within 5-7 business days and will appear on the customer’s credit card statement.
+     - If no duplicates are found, advise the customer to check with their bank for pending authorizations.
+   - Escalation: Escalate to a human agent if the customer provides evidence (e.g., screenshots) of duplicate charges not visible in the portal or if the issue persists after initial checks.
+
+2. Subscription Issues:
+   - Description: Issues related to subscription activation, cancellation, or incorrect plan assignment.
+   - Common Causes: Expired payment methods, incorrect plan selection, or system sync errors.
+   - Resolution Steps:
+     - Direct the customer to the billing portal to verify account status under "Subscriptions."
+     - Ensure the active plan matches the intended service (e.g., Basic, Premium).
+     - If the subscription is inactive, prompt the customer to update their payment method (card details or PayPal).
+     - For cancellations, guide the customer to the "Manage Subscription" section to cancel or contact support for assistance.
+     - If the issue is a system error (e.g., plan not updated), escalate to the billing team with account details.
+   - Escalation: Escalate if the customer reports repeated billing after cancellation or if the portal shows incorrect data.
+
+3. Payment Failures:
+   - Description: Failed payment attempts when processing a subscription or one-time charge.
+   - Common Causes: Invalid card details, insufficient funds, or bank restrictions.
+   - Resolution Steps:
+     - Ask the customer to verify card details (number, expiry date, CVV) in the billing portal.
+     - Suggest retrying the payment after updating details or using an alternative payment method.
+     - If the issue persists, recommend contacting their bank to check for restrictions (e.g., fraud alerts).
+     - Provide a link to the payment troubleshooting guide: https://support.company.com/payments.
+   - Escalation: Escalate if the customer confirms valid payment details but the system still rejects the payment.
+
+4. Billing Disputes:
+   - Description: Customer disputes a charge or requests clarification on billing details.
+   - Resolution Steps:
+     - Request transaction IDs, screenshots, or bank statements showing the disputed charge.
+     - Cross-check the charge in the billing portal against the customer’s account history.
+     - If the charge is valid, explain the service or subscription tied to it (e.g., "This charge is for the Premium plan renewal on 2025-07-01").
+     - If the charge is incorrect, initiate a refund and document the issue.
+   - Escalation: Escalate to a human agent for complex disputes or if the customer provides legal documentation.
+
+5. General Guidelines:
+   - Always apologize for any inconvenience and maintain a professional tone.
+   - Include specific timelines (e.g., "Refunds process within 5-7 business days") and actionable steps (e.g., "Log in to https://billing.company.com").
+   - Escalate sensitive cases (e.g., legal disputes, repeated issues) to a human agent with full ticket details.
