@@ -21,7 +21,7 @@ def classify_ticket(state: State) -> State:
             temperature=0
         )
         # Validate output
-        if response not in valid_categories:
+        if response.rstrip('.').strip() not in valid_categories:
             error_msg = f"Invalid category: {response}. Using fallback: General"
             messages = state["messages"] + [HumanMessage(content=error_msg)]
             return {
