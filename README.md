@@ -51,7 +51,7 @@ The agent processes tickets through the following workflow:
 
 ```bash
 git clone https://github.com/meetrafay/Support-Ticket-Resolution-Agent.git
-cd support-agent
+cd Support-Ticket-Resolution-Agent
 ````
 
 #### 2. Set Up Virtual Environment
@@ -65,6 +65,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 ```bash
 pip install -r requirements.txt
+pip install -e .
 ```
 
 Requirements include:
